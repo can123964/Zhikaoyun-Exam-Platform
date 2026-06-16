@@ -1,0 +1,110 @@
+/**
+ * SCSS 变量定义 — Spatial UI (visionOS) 风格
+ * 品牌色系 + 玻璃材质 + 布局尺寸
+ */
+
+// ============================================
+// 品牌色 CSS 变量（Spatial UI Light）
+// ============================================
+
+:root {
+  // 基础色
+  --brand-bg: linear-gradient(135deg, #e8edf5 0%, #edf0f7 25%, #f0eef5 50%, #edf2f5 75%, #eef0f5 100%);
+  --brand-bg-flat: #edf0f5;
+  --brand-surface: rgba(255, 255, 255, 0.55);
+  --brand-surface-solid: #ffffff;
+  --brand-border: rgba(255, 255, 255, 0.6);
+  --brand-dark: #1d1d1f;
+  --brand-slate: #424245;
+  --brand-muted: #6e6e73;
+  --brand-light: #a1a1a6;
+  --brand-lighter: #d2d2d7;
+  --brand-accent: #007AFF;
+  --brand-accent-hover: #0066d6;
+
+  // 玻璃材质
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.65);
+  --glass-blur: 40px;
+  --glass-saturate: 200%;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+
+  // 圆角
+  --brand-radius: 18px;
+  --brand-radius-sm: 12px;
+  --brand-radius-lg: 24px;
+
+  // ===== Spatial UI 阴影系统 =====
+  // 基础阴影：柔和的深度阴影（增强对比度让玻璃浮起感更明显）
+  --brand-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  // 中等阴影（hover 用）
+  --brand-shadow-md: 0 12px 40px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
+  // 大阴影（弹窗、对话框）
+  --brand-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.16), 0 8px 20px rgba(0, 0, 0, 0.1);
+  // hover 强调
+  --brand-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
+  // 按下（内凹）
+  --brand-shadow-inset: inset 0 1px 4px rgba(0, 0, 0, 0.08);
+  // 柔和阴影（小元素）
+  --brand-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  // 字体
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+// ============================================
+// 品牌色 CSS 变量（Spatial UI Dark）
+// ============================================
+
+html.dark {
+  --brand-bg: #1c1c1e;
+  --brand-surface: rgba(44, 44, 46, 0.72);
+  --brand-surface-solid: rgba(44, 44, 46, 0.92);
+  --brand-border: rgba(255, 255, 255, 0.1);
+  --brand-dark: #f5f5f7;
+  --brand-slate: #d1d1d6;
+  --brand-muted: #98989d;
+  --brand-light: #636366;
+  --brand-lighter: #48484a;
+  --brand-accent: #0A84FF;
+  --brand-accent-hover: #409cff;
+
+  // 玻璃材质 (dark)
+  --glass-bg: rgba(44, 44, 46, 0.55);
+  --glass-bg-heavy: rgba(44, 44, 46, 0.78);
+  --glass-blur: 40px;
+  --glass-saturate: 180%;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+
+  --brand-radius: 18px;
+  --brand-radius-sm: 12px;
+  --brand-radius-lg: 24px;
+
+  // Dark 阴影
+  --brand-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --brand-shadow-md: 0 12px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25);
+  --brand-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --brand-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25);
+  --brand-shadow-inset: inset 0 1px 4px rgba(0, 0, 0, 0.3);
+  --brand-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+// ============================================
+// 布局尺寸变量
+// ============================================
+
+$sidebar-width: 240px;
+$sidebar-width-collapsed: 60px;
+$navbar-height: 56px;
+$tags-view-height: 34px;
+
+// ============================================
+// CSS 变量映射（供组件和 SCSS 使用）
+// ============================================
+
+$menu-background: var(--menu-background);
+$menu-text: var(--menu-text);
+$menu-active-text: var(--menu-active-text);
+$menu-hover: var(--menu-hover);
+$sidebar-logo-background: var(--sidebar-logo-background);
+$sidebar-logo-text-color: var(--sidebar-logo-text-color);

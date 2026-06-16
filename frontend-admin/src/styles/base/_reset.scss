@@ -1,0 +1,143 @@
+/**
+ * 全局基础重置样式 — Spatial UI (visionOS) 风格
+ */
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  line-height: 1.5;
+  tab-size: 4;
+  text-size-adjust: 100%;
+  overflow-y: auto;
+}
+
+#app,
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-family-primary), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    Arial, sans-serif;
+  line-height: inherit;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+  background: var(--brand-bg-flat);
+  background-image: var(--brand-bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--brand-dark);
+}
+
+img,
+svg {
+  display: inline-block;
+}
+
+svg {
+  vertical-align: -0.15em;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a,
+a:focus,
+a:hover {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:focus,
+a:active,
+div:focus {
+  outline: none;
+}
+
+// ===== Element Plus 品牌变量覆盖 =====
+:root {
+  // 背景色 — 使用不透明色保证可读性
+  --el-bg-color: var(--brand-surface-solid);
+  --el-bg-color-page: var(--brand-bg);
+  --el-bg-color-overlay: var(--brand-surface-solid);
+
+  // ★ 填充色 — 保证组件有足够不透明度
+  --el-fill-color: var(--brand-surface);
+  --el-fill-color-light: rgba(255, 255, 255, 0.5);
+  --el-fill-color-lighter: rgba(255, 255, 255, 0.35);
+  --el-fill-color-blank: var(--brand-surface-solid);
+  --el-fill-color-white: var(--brand-surface-solid);
+
+  // 表格专用
+  --el-table-bg-color: var(--brand-surface-solid);
+  --el-table-tr-bg-color: var(--brand-surface-solid);
+  --el-table-header-bg-color: rgba(255, 255, 255, 0.5);
+  --el-table-row-hover-bg-color: rgba(0, 122, 255, 0.06);
+  --el-table-current-row-bg-color: rgba(0, 122, 255, 0.1);
+  --el-table-border-color: transparent;
+  --el-table-expanded-cell-bg-color: var(--brand-surface-solid);
+
+  // 边框色 — 微妙的分隔线
+  --el-border-color: rgba(0, 0, 0, 0.08);
+  --el-border-color-light: rgba(0, 0, 0, 0.06);
+  --el-border-color-lighter: rgba(0, 0, 0, 0.04);
+  --el-border-color-extra-light: rgba(0, 0, 0, 0.02);
+
+  // 文字色
+  --el-text-color-primary: var(--brand-dark);
+  --el-text-color-regular: var(--brand-slate);
+  --el-text-color-secondary: var(--brand-muted);
+  --el-text-color-placeholder: var(--brand-light);
+
+  // 圆角
+  --el-border-radius-base: 14px;
+  --el-border-radius-small: 10px;
+  --el-border-radius-round: 24px;
+
+  // 字体
+  --el-font-family: var(--font-family-primary), "PingFang SC", sans-serif;
+
+  // 遮罩 — 足够深以突出弹窗
+  --el-mask-color: rgba(0, 0, 0, 0.5);
+  --el-mask-color-extra-light: rgba(0, 0, 0, 0.3);
+}
+
+// ===== 滚动条 — Spatial UI 风格 =====
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-lighter);
+  border-radius: 10px;
+
+  &:hover {
+    background: var(--brand-light);
+  }
+}

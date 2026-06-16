@@ -1,0 +1,135 @@
+/**
+ * 全局标准布局样式 — Spatial UI (visionOS)
+ */
+
+.page-container {
+  padding: 16px;
+  background: transparent;
+}
+
+.page-aside {
+  margin-bottom: 16px;
+
+  @media (min-width: 992px) {
+    margin-bottom: 0;
+  }
+}
+
+.page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-search {
+  margin-bottom: 16px;
+
+  .el-card__body {
+    padding: 12px 12px 0;
+  }
+}
+
+.page-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  &__left,
+  &__right {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+/* 主体内容区 */
+.app-main {
+  background: transparent;
+  min-height: 100%;
+}
+
+/* 侧边栏容器 */
+.layout__sidebar {
+  background: transparent;
+}
+
+/* 顶部导航栏 */
+.layout__header {
+  background: transparent;
+  height: 56px !important;
+  display: flex;
+  align-items: center;
+}
+
+/* 标签页导航 */
+.layout__tags-view {
+  background: var(--app-bg);
+  padding: 4px 12px;
+}
+
+/* 内容容器 */
+.layout__main {
+  padding: 20px !important;
+}
+
+/* 页面容器 */
+.app-container {
+  width: 100%;
+}
+
+/* 混合布局左侧菜单 hover 样式 */
+.layout-mix .layout__sidebar--left .el-menu {
+  .el-menu-item:hover,
+  .el-sub-menu__title:hover {
+    background-color: var(--el-fill-color-light) !important;
+  }
+}
+
+html.dark .layout-mix .layout__sidebar--left .el-menu,
+html.sidebar-color-blue .layout__sidebar--left .el-menu {
+  .el-menu-item:hover,
+  .el-sub-menu__title:hover {
+    background-color: var(--menu-hover) !important;
+  }
+}
+
+/* 顶部布局菜单填充空间 */
+.layout-top .layout__header-left .el-menu--horizontal,
+.layout-mix .layout__header-menu .el-menu--horizontal {
+  display: flex;
+  flex: 1 1 0% !important;
+  align-items: center;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden;
+}
+
+/* 窄屏隐藏菜单文字 */
+.hideSidebar {
+  &.layout-top .layout__header .el-menu--horizontal,
+  &.layout-mix .layout__header .el-menu--horizontal {
+    .el-menu-item,
+    .el-sub-menu__title {
+      .menu-title,
+      span:not([class*="i-svg"]):not(.el-icon) {
+        display: none !important;
+      }
+    }
+  }
+
+  &.layout-mix .layout__sidebar--left .el-menu {
+    .el-menu-item,
+    .el-sub-menu__title {
+      .menu-title,
+      span:not([class*="i-svg"]):not(.el-icon) {
+        display: none !important;
+      }
+    }
+  }
+}

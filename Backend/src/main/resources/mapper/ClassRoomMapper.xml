@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+  ClassRoom Mapper XML（复杂/动态 SQL 写在这里）
+
+  为什么有些 SQL 写在注解里，有些写在 XML 里？
+  简单 SQL（根据 ID 查、插入、统计数量）直接写在 @Select/@Insert 注解里，
+  这样代码少，在 Java 文件里就能看到 SQL，不用来回切换。
+  复杂 SQL（多表 JOIN、动态条件 <if>）写在 XML 里，
+  因为 Java 注解不支持写复杂的动态 SQL，用 XML 更方便。
+
+  namespace属性：必须和 Mapper 接口的全限定名一致。
+  MyBatis 通过 namespace + id 找到对应的 Java 方法。
+  比如这里 namespace=ClassRoomMapper，id=selectClassRoomList，
+  对应的就是 ClassRoomMapper.selectClassRoomList() 方法。
+-->
+<mapper namespace="org.example.zhikaoyunexamplatform.classroom.mapper.ClassRoomMapper">
+
+    <!-- 逻辑删除状态常量，对应 DeletedStatusEnum -->
+    <sql id="notDeleted">is_deleted = 0</sql>
+    <sql id="deleted">is_deleted = 1</sql>
+    <!-- 角色常量，对应 RoleEnum -->
+    <sql id="roleStudent">role = 0</sql>
+    <sql id="roleTeacher">role = 1</sql>
+
+    <!--
+      查询班级列表，附带班主任姓名和学生人数
+
+      resultType：返回结果映射到的 Java 类型。
+      这里写的是 ClassRoomVO 的全限定名（带包名）。
+      因为 SQL 查询结果中包含了 teacher_name 和 student_count 两个额外字段，
+      所以用 VO 来接收，不用 Entity。
+
+      SQL 说明：
+      主表：t_class c（班级表）
+      LEFT JOIN 1：t_user teacher（班主任信息，通过 teacher_id 关联）
+      LEFT JOIN 2：子查询 sc（每个班级的学生人数，通过 class_id 分组统计）
+
+      COALESCE(sc.student_count, 0)：
+      如果没有学生，student_count 会是 null，转成 0 显示。
+      COALESCE 函数返回第一个非 null 的参数。
+
+      驼峰映射：
+      class_name -> className
+      teacher_name -> teacherName（这个在 ClassRoomVO 里定义）
+      student_count -> studentCount
+      create_time -> createTime
+    -->
+    <select id="selectClassRoomList" resultType="org.example.zhikaoyunexamplatform.classroom.vo.ClassRoomVO">
+        SELECT c.id, c.class_name, c.grade, c.teacher_id,
+               teacher.real_name AS teacher_name,
+               COALESCE(sc.student_count, 0) AS student_count,
+               c.remark, c.create_time
+        FROM t_class c
+        LEFT JOIN t_user teacher ON c.teacher_id = teacher.id AND teacher.<include refid="notDeleted"/>
+        LEFT JOIN (
+            SELECT class_id, COUNT(*) AS student_count
+            FROM t_user WHERE <include refid="roleStudent"/> AND <include refid="notDeleted"/> GROUP BY class_id
+        ) sc ON c.id = sc.class_id
+        WHERE c.<include refid="notDeleted"/>
+        <if test="keyword != null and keyword != ''">
+            AND c.class_name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="grade != null and grade != ''">
+            AND c.grade = #{grade}
+        </if>
+        ORDER BY c.create_time DESC
+    </select>
+
+    <!-- 查询某教师负责的班级列表（复用 selectClassRoomList 的 JOIN 逻辑） -->
+    <select id="selectClassRoomListByTeacherId" resultType="org.example.zhikaoyunexamplatform.classroom.vo.ClassRoomVO">
+        SELECT c.id, c.class_name, c.grade, c.teacher_id,
+               teacher.real_name AS teacher_name,
+               COALESCE(sc.student_count, 0) AS student_count,
+               c.remark, c.create_time
+        FROM t_class c
+        LEFT JOIN t_user teacher ON c.teacher_id = teacher.id AND teacher.<include refid="notDeleted"/>
+        LEFT JOIN (
+            SELECT class_id, COUNT(*) AS student_count
+            FROM t_user WHERE <include refid="roleStudent"/> AND <include refid="notDeleted"/> GROUP BY class_id
+        ) sc ON c.id = sc.class_id
+        WHERE c.<include refid="notDeleted"/>
+          AND c.teacher_id = #{teacherId}
+        ORDER BY c.create_time DESC
+    </select>
+
+    <!--
+       按主键更新班级，只更新非 null 字段
+
+      这是"部分更新"的实现关键：
+      <set> 标签：自动处理 SET 子句，去掉多余的逗号
+      <if test="字段 != null">：只更新传了值的字段
+
+      比如前端只传了 className = "计算机2203班"：
+      UPDATE t_class SET class_name = '计算机2203班', update_time = NOW() WHERE id = 1 AND is_deleted = 0
+      其他字段（grade、teacherId、remark）保持不变。
+
+      注意：update_time = NOW() 没有包在 <if> 里面，
+      意味着每次更新都会修改 update_time，不管改了哪些字段。
+      这是符合预期的：只要有修改操作，更新时间就应该更新。
+    -->
+    <update id="updateById">
+        UPDATE t_class
+        <set>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id} AND <include refid="notDeleted"/>
+    </update>
+
+    <!-- 批量根据 ID 列表查询班级 -->
+    <select id="selectByIds" resultType="org.example.zhikaoyunexamplatform.classroom.entity.ClassRoom">
+        SELECT * FROM t_class WHERE <include refid="notDeleted"/>
+        AND id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </select>
+
+</mapper>

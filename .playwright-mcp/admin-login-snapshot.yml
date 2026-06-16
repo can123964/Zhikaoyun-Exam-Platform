@@ -1,0 +1,20 @@
+- generic [ref=e10] [box=0,0,1036,850]:
+  - generic [ref=e12] [box=219,165,135,129]:
+    - img [ref=e14] [box=265,165,44,44]
+    - heading "智考云" [level=1] [ref=e18] [box=219,225,135,38]
+    - paragraph [ref=e19] [box=219,271,135,23]: 在线考试平台管理端
+  - generic [ref=e46] [box=621,210,367,430]:
+    - generic [ref=e47] [box=662,251,286,73]:
+      - heading "欢迎回来" [level=2] [ref=e48] [box=662,251,286,42]
+      - paragraph [ref=e49] [box=662,301,286,23]: 请登录您的管理账号
+    - generic [ref=e50] [box=662,359,286,184]:
+      - generic [ref=e54] [box=662,359,286,48]:
+        - img [ref=e57] [box=678,375,17,17]
+        - textbox "请输入用户名" [ref=e59] [box=703,361,227,44]
+      - generic [ref=e63] [box=662,427,286,48]:
+        - img [ref=e66] [box=678,443,17,17]
+        - textbox "请输入密码" [ref=e69] [box=703,429,193,44]
+        - img [ref=e72] [cursor=pointer] [box=909,442,18,18]
+      - button "登 录" [ref=e77] [cursor=pointer] [box=662,495,286,48]:
+        - generic [ref=e78] [box=783,511,42,16]: 登 录
+    - generic [ref=e79] [box=662,575,286,24]: 智考云在线考试平台 © 2026

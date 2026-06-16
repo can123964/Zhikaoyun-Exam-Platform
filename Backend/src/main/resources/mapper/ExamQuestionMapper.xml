@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.zhikaoyunexamplatform.question.mapper.ExamQuestionMapper">
+
+    <sql id="notDeleted">is_deleted = 0</sql>
+
+    <!-- 批量查询多个考试的题目关联记录（用于消除 N+1 查询） -->
+    <select id="selectByExamIds" resultType="org.example.zhikaoyunexamplatform.exam.entity.ExamQuestion">
+        SELECT * FROM t_exam_question WHERE <include refid="notDeleted"/>
+        AND exam_id IN
+        <foreach collection="examIds" item="examId" open="(" separator="," close=")">#{examId}</foreach>
+        ORDER BY exam_id, sort_order ASC
+    </select>
+
+    <!-- 批量插入考试题目关联记录 -->
+    <insert id="batchInsert">
+        INSERT INTO t_exam_question (exam_id, question_id, score, sort_order, is_deleted, create_time, update_time)
+        VALUES
+        <foreach collection="list" item="eq" separator=",">
+            (#{eq.examId}, #{eq.questionId}, #{eq.score}, #{eq.sortOrder}, 0, NOW(), NOW())
+        </foreach>
+    </insert>
+
+</mapper>

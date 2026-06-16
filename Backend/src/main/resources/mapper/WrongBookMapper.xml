@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.zhikaoyunexamplatform.wrongbook.mapper.WrongBookMapper">
+
+    <sql id="notDeleted">is_deleted = 0</sql>
+
+    <select id="countByUserId" resultType="int">
+        SELECT COUNT(*) FROM t_wrong_book wb
+        LEFT JOIN t_question q ON wb.question_id = q.id
+        WHERE wb.user_id = #{userId} AND wb.<include refid="notDeleted"/>
+        <if test="type != null">AND q.type = #{type}</if>
+        <if test="mastered != null">AND wb.mastered = #{mastered}</if>
+    </select>
+
+    <select id="selectPageByUserId" resultType="org.example.zhikaoyunexamplatform.wrongbook.entity.WrongBook">
+        SELECT wb.* FROM t_wrong_book wb
+        LEFT JOIN t_question q ON wb.question_id = q.id
+        WHERE wb.user_id = #{userId} AND wb.<include refid="notDeleted"/>
+        <if test="type != null">AND q.type = #{type}</if>
+        <if test="mastered != null">AND wb.mastered = #{mastered}</if>
+        ORDER BY wb.create_time DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectByUserIdAndQuestionIds" resultType="org.example.zhikaoyunexamplatform.wrongbook.entity.WrongBook">
+        SELECT * FROM t_wrong_book WHERE <include refid="notDeleted"/>
+        AND user_id = #{userId}
+        AND question_id IN
+        <foreach collection="questionIds" item="qid" open="(" separator="," close=")">#{qid}</foreach>
+    </select>
+
+</mapper>

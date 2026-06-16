@@ -1,0 +1,59 @@
+/**
+ * 主题变量定义 — Spatial UI (visionOS) 风格
+ */
+
+// ============================================
+// 默认主题（浅色 — 玻璃侧边栏）
+// ============================================
+
+:root {
+  // 菜单 — 半透明玻璃效果
+  --menu-background: rgba(255, 255, 255, 0.45);
+  --menu-text: #6e6e73;
+  --menu-active-text: #007AFF;
+  --menu-hover: rgba(255, 255, 255, 0.35);
+
+  // 侧边栏 Logo
+  --sidebar-logo-background: transparent;
+  --sidebar-logo-text-color: #1d1d1f;
+
+  // 内容区背景
+  --app-bg: #edf0f5;
+}
+
+// ============================================
+// 浅色侧边栏主题
+// ============================================
+
+html.sidebar-color-white {
+  --menu-background: rgba(255, 255, 255, 0.55);
+  --menu-text: #6e6e73;
+  --menu-active-text: #007AFF;
+  --menu-hover: rgba(255, 255, 255, 0.4);
+  --sidebar-logo-background: transparent;
+  --sidebar-logo-text-color: #1d1d1f;
+}
+
+// ============================================
+// 暗黑主题 — Spatial UI Dark
+// ============================================
+
+html.dark {
+  --menu-background: rgba(44, 44, 46, 0.85);
+  --menu-text: #98989d;
+  --menu-active-text: #0A84FF;
+  --menu-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-logo-background: transparent;
+  --sidebar-logo-text-color: #f5f5f7;
+
+  // 内容区背景
+  --app-bg: #1c1c1e;
+}
+
+// ============================================
+// 无障碍模式
+// ============================================
+
+html.color-weak {
+  filter: invert(80%);
+}

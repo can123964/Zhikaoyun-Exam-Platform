@@ -1,0 +1,27 @@
+/**
+ * Element Plus 主题变量覆盖 — Spatial UI (visionOS) 风格
+ */
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // Spatial UI 强调色：Apple 蓝
+      "base": #007AFF,
+    ),
+    "success": (
+      "base": #34C759,
+    ),
+    "warning": (
+      "base": #FF9500,
+    ),
+    "danger": (
+      "base": #FF3B30,
+    ),
+    "info": (
+      "base": #8E8E93,
+    ),
+  ),
+
+  $bg-color: (
+    "page": transparent,
+  )
+);

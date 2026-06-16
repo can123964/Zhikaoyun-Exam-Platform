@@ -1,0 +1,629 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+/* ===== 全局变量 ===== */
+:root {
+  /* VisionOS Spatial UI Glass tokens (matching admin frontend) */
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.65);
+  --glass-blur: 40px;
+  --glass-saturate: 200%;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --glass-radius: 24px;
+  --glass-hover-transform: scale(1.02);
+  --glass-transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --brand-accent: #007AFF;
+  --brand-accent-hover: #0066d6;
+  --brand-dark: #1d1d1f;
+  --brand-slate: #424245;
+  --brand-muted: #6e6e73;
+  --brand-light: #a1a1a6;
+  --brand-lighter: #d2d2d7;
+  --brand-border: rgba(255, 255, 255, 0.6);
+  --brand-bg: linear-gradient(135deg, #e8edf5 0%, #edf0f7 25%, #f0eef5 50%, #edf2f5 75%, #eef0f5 100%);
+  --brand-bg-flat: #edf0f5;
+  --brand-surface: rgba(255, 255, 255, 0.55);
+  --brand-radius: 18px;
+  --brand-radius-sm: 12px;
+  --brand-radius-lg: 24px;
+  --brand-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== 基础 ===== */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background: var(--brand-bg);
+  color: var(--brand-dark);
+}
+
+#app {
+  height: 100%;
+}
+
+/* ===== Element UI 覆盖 ===== */
+
+/* 卡片 */
+.el-card {
+  border: none !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-radius: var(--glass-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.el-card__header {
+  padding: 18px 24px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--brand-slate);
+  border-bottom: 1px solid var(--brand-border);
+}
+
+.el-card__body {
+  padding: 20px 24px;
+}
+
+/* 按钮 */
+.el-button--primary {
+  background: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+  border-radius: var(--brand-radius-sm);
+  font-weight: 600;
+}
+
+.el-button--primary:hover {
+  background: var(--brand-accent-hover) !important;
+  border-color: var(--brand-accent-hover) !important;
+}
+
+.el-button--default {
+  border-radius: var(--brand-radius-sm);
+}
+
+/* 输入框 */
+.el-input__inner {
+  border-radius: var(--brand-radius-sm);
+  border: 1px solid var(--brand-border);
+  height: 44px;
+  line-height: 44px;
+  background: var(--brand-surface);
+  color: var(--brand-dark);
+}
+
+.el-input__inner:focus {
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
+}
+
+.el-input-group__append,
+.el-input-group__prepend {
+  border-radius: var(--brand-radius-sm);
+}
+
+/* 选择器 */
+.el-select .el-input__inner {
+  height: 44px;
+  line-height: 44px;
+}
+
+/* 表格 */
+.el-table {
+  border-radius: var(--brand-radius);
+  overflow: hidden;
+  box-shadow: var(--brand-shadow);
+}
+
+.el-table th {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: var(--brand-muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.el-table td {
+  font-size: 13px;
+  color: #334155;
+}
+
+.el-table__body tr.current-row > td {
+  background-color: rgba(0, 122, 255, 0.08) !important;
+}
+/* 分页 */
+.el-pagination {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.el-pagination button,
+.el-pager li {
+  border-radius: 10px !important;
+  min-width: 34px;
+  height: 34px;
+  line-height: 34px;
+  font-weight: 500;
+}
+
+.el-pager li.active {
+  background: var(--brand-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--brand-accent) !important;
+}
+
+/* 标签 */
+.el-tag {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0 10px;
+  height: 26px;
+  line-height: 26px;
+}
+
+/* 对话框 */
+.el-dialog {
+  border-radius: var(--brand-radius) !important;
+}
+
+.el-dialog__header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--brand-border);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.el-dialog__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--brand-slate);
+}
+
+.el-dialog__body {
+  padding: 20px 24px;
+}
+
+.el-dialog__footer {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--brand-border);
+}
+
+/* 消息弹窗 */
+.el-message-box {
+  border-radius: var(--brand-radius) !important;
+}
+
+.el-message-box__title {
+  font-weight: 700;
+  color: var(--brand-slate);
+}
+
+/* 通知 */
+.el-notification {
+  border-radius: var(--brand-radius-sm) !important;
+}
+
+/* ===== 全局动画 ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 页面入场 */
+.app-item-contain,
+.app-contain {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* 卡片入场错开 */
+.el-card {
+  animation: fadeIn 0.35s ease both;
+}
+
+/* 按钮微反馈 */
+.el-button:active {
+  transform: scale(0.97);
+}
+
+.el-button--primary {
+  transition: all 0.2s ease;
+}
+
+/* 导航菜单下划线过渡 */
+.student-header .el-menu-item {
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+
+/* 考试卡片——已经是 0.2s，再加一个入场偏移 */
+.exam-card {
+  animation: fadeInUp 0.4s ease both;
+}
+
+.exam-card:nth-child(1) { animation-delay: 0.02s; }
+.exam-card:nth-child(2) { animation-delay: 0.06s; }
+.exam-card:nth-child(3) { animation-delay: 0.10s; }
+.exam-card:nth-child(4) { animation-delay: 0.14s; }
+.exam-card:nth-child(5) { animation-delay: 0.18s; }
+.exam-card:nth-child(6) { animation-delay: 0.22s; }
+
+/* ===== 学生端特有样式 ===== */
+
+/* 顶部导航 */
+.student-header {
+  border-bottom: var(--glass-border) !important;
+  padding: 0 24px !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.student-header .el-menu {
+  border-bottom: none !important;
+  background: transparent !important;
+}
+
+.student-header .el-menu-item {
+  font-size: 14px !important;
+  line-height: 60px !important;
+  color: var(--brand-muted);
+  border-bottom: none !important;
+  height: 60px;
+}
+
+.student-header .el-menu-item.is-active {
+  color: var(--brand-dark) !important;
+  font-weight: 600;
+  border-bottom: 2px solid var(--brand-dark) !important;
+}
+
+.student-header .head-user {
+  color: var(--brand-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.student-header .el-dropdown-avatar {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* 主内容区 */
+.student-main {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.app-item-contain {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 24px 0;
+}
+
+.app-contain {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 24px 0;
+}
+
+/* 考试卡片 */
+.exam-card {
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.exam-card:hover {
+  transform: var(--glass-hover-transform);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.exam-card-header {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--brand-dark);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--brand-border);
+}
+
+.exam-card-content {
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--brand-light);
+  line-height: 2;
+}
+
+.exam-card-content p {
+  margin: 0;
+}
+
+.exam-card-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--brand-border);
+  text-align: right;
+}
+
+/* 考试答题页 */
+.do-exam-title {
+  position: fixed;
+  width: 100%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  z-index: 999;
+  padding: 8px 24px;
+  box-shadow: var(--glass-shadow);
+  top: 0;
+}
+
+.do-exam-title-hidden {
+  width: 100%;
+  visibility: hidden;
+  padding: 8px 24px;
+}
+
+.do-exam-title-tag {
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.do-exam-time {
+  float: right;
+  line-height: 2;
+  font-size: 14px;
+  color: var(--brand-muted);
+}
+
+.do-align-center {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* 题目样式 */
+.exam-question-item {
+  margin-bottom: 20px;
+}
+
+.exam-question-item .el-card {
+  border-radius: 18px !important;
+}
+
+.exam-question-item .el-form-item__label {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--brand-dark) !important;
+}
+
+.q-title {
+  margin: 5px;
+  font-weight: 600;
+  color: var(--brand-dark);
+}
+
+.q-content {
+  margin: 12px 0 16px;
+  padding: 16px 20px;
+  background: var(--brand-bg);
+  border-radius: 12px;
+  line-height: 1.8;
+}
+
+.q-item-content {
+  padding: 8px 0;
+}
+
+.q-item-span-content {
+  white-space: normal;
+  line-height: 1.8;
+}
+
+.question-prefix {
+  padding-right: 16px;
+  font-weight: 600 !important;
+  color: var(--brand-muted);
+}
+
+/* 页脚 */
+.student-footer {
+  margin-top: 80px;
+  background: #fff;
+  border-top: 1px solid var(--brand-border);
+  width: 100%;
+}
+
+.student-footer .foot-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 24px;
+  flex-wrap: wrap;
+}
+
+.footer-main {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.footer-main-link {
+  display: block;
+  line-height: 2;
+  font-size: 14px;
+  color: var(--brand-light);
+  text-decoration: none;
+}
+
+.footer-social {
+  text-align: right;
+}
+
+.footer-social-title {
+  color: var(--brand-dark);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.foot-copyright {
+  text-align: center;
+  padding: 20px;
+  color: var(--brand-lighter);
+  font-size: 13px;
+}
+
+.account-foot-copyright {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.account-foot-copyright span {
+  color: var(--brand-lighter);
+  font-size: 13px;
+}
+
+/* 考试记录 */
+.record-answer-info {
+  margin-top: 24px;
+}
+
+.question-answer-show-item {
+  .el-rate {
+    line-height: 1.5;
+  }
+}
+
+/* 个人信息 */
+.user-info-userName {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.user-info-fullInfo label {
+  line-height: 1.8;
+  font-weight: 600;
+  color: var(--brand-muted);
+}
+
+/* 消息 */
+.student-message-list .el-collapse-item__arrow {
+  margin: 0;
+}
+
+/* 其他 */
+.index-task-table {
+  width: 100%;
+}
+
+.index-limit-paper-time {
+  font-size: 12px;
+  color: var(--brand-lighter);
+  text-align: right;
+}
+
+.gapfilling-span {
+  color: #ef4444;
+  padding: 0 24px;
+  margin: 0 4px;
+  border-bottom: 2px solid #ef4444;
+}
+
+/* 首页标题 */
+.index-title-h3 {
+  font-size: 18px;
+  color: var(--brand-dark);
+  font-weight: 700;
+  padding: 0 0 0 12px;
+  margin: 0 0 20px;
+  border-left: 4px solid var(--brand-accent);
+}
+
+/* 欢迎横幅 */
+.welcome-banner {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  padding: 24px 32px;
+  margin-bottom: 24px;
+  transition: var(--glass-transition);
+}
+
+.welcome-banner:hover {
+  transform: var(--glass-hover-transform);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .app-item-contain {
+    padding: 16px 12px 0;
+  }
+  .app-contain {
+    padding: 16px 12px 0;
+  }
+  .student-footer .foot-container {
+    padding: 24px 16px;
+  }
+
+  /* 卡片网格 — 手机变单列 */
+  .el-row [class*="el-col-"] {
+    width: 100% !important;
+  }
+
+  /* 考试卡片限制 */
+  .exam-card-content p:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 详情卡片 — 手机上限宽 */
+  .record-answer-info,
+  .detail-card {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  /* 错题卡片网格 */
+  .card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 表单/详情区域不溢出 */
+  .el-card__body {
+    overflow-x: hidden;
+  }
+
+}

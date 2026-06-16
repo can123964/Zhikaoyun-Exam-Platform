@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.zhikaoyunexamplatform.score.mapper.ScoreMapper">
+
+    <sql id="notDeleted">is_deleted = 0</sql>
+
+    <!-- 考试成绩列表（分页） -->
+    <select id="selectScorePage" resultType="org.example.zhikaoyunexamplatform.score.vo.ScoreItemVO">
+        SELECT r.user_id, u.username, u.real_name, u.student_no,
+               COALESCE(c.class_name, '') AS class_name,
+               r.score, e.total_score, e.pass_score, r.status, r.submit_time, r.duration,
+               CASE WHEN r.score >= e.pass_score THEN 1 ELSE 0 END AS is_passed
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id
+        LEFT JOIN t_class c ON u.class_id = c.id
+        JOIN t_exam e ON r.exam_id = e.id
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND u.is_deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (u.real_name LIKE CONCAT('%', #{keyword}, '%')
+                 OR u.student_no LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+        ORDER BY r.score DESC, r.submit_time ASC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 考试成绩总数 -->
+    <select id="countScore" resultType="int">
+        SELECT COUNT(*)
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND u.is_deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (u.real_name LIKE CONCAT('%', #{keyword}, '%')
+                 OR u.student_no LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+    </select>
+
+    <!-- 成绩统计 -->
+    <select id="selectExamStat" resultType="org.example.zhikaoyunexamplatform.score.vo.ScoreStatVO">
+        SELECT AVG(r.score) AS avg_score,
+               MAX(r.score) AS max_score,
+               MIN(r.score) AS min_score,
+               COUNT(*) AS submit_count
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND u.is_deleted = 0
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+    </select>
+
+    <!-- 成绩排名 -->
+    <select id="selectRankList" resultType="org.example.zhikaoyunexamplatform.score.vo.RankVO">
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY r.score DESC, r.submit_time ASC) AS `rank`,
+            r.user_id, u.real_name, u.student_no, r.score, r.status, r.submit_time
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND u.is_deleted = 0
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+        ORDER BY r.score DESC, r.submit_time ASC
+    </select>
+
+    <!-- 分段统计辅助 -->
+    <select id="countByScoreRange" resultType="int">
+        SELECT COUNT(*)
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id AND u.is_deleted = 0
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND r.score &gt;= #{min} AND r.score &lt; #{max}
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+    </select>
+
+    <!-- 全部考试成绩（不分页，用于导出） -->
+    <select id="selectAllScores" resultType="org.example.zhikaoyunexamplatform.score.vo.ScoreItemVO">
+        SELECT r.user_id, u.username, u.real_name, u.student_no,
+               COALESCE(c.class_name, '') AS class_name,
+               r.score, e.total_score, e.pass_score, r.status, r.submit_time, r.duration,
+               CASE WHEN r.score >= e.pass_score THEN 1 ELSE 0 END AS is_passed
+        FROM t_exam_record r
+        JOIN t_user u ON r.user_id = u.id
+        LEFT JOIN t_class c ON u.class_id = c.id
+        JOIN t_exam e ON r.exam_id = e.id
+        WHERE r.exam_id = #{examId}
+          AND r.status IN (1, 2)
+          AND r.is_deleted = 0
+          AND u.is_deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (u.real_name LIKE CONCAT('%', #{keyword}, '%')
+                 OR u.student_no LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="classId != null">
+            AND u.class_id = #{classId}
+        </if>
+        ORDER BY r.score DESC, r.submit_time ASC
+    </select>
+
+</mapper>
