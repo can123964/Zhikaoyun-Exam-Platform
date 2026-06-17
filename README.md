@@ -20,6 +20,7 @@
 - [🛠️ 技术栈](#️-技术栈)
 - [📁 项目结构](#-项目结构)
 - [🔧 环境要求](#-环境要求部署-agent-必读)
+- [📥 克隆项目](#-克隆项目)
 - [🚀 快速开始](#-快速开始部署-agent-执行顺序)
 - [📝 详细部署指南](#-详细部署指南)
 - [✅ 部署后验证](#-部署后验证)
@@ -224,37 +225,69 @@ Zhikaoyun-Exam-Platform/
 
 ---
 
-## 🚀 快速开始（部署 agent 执行顺序）
+## 📥 克隆项目
 
-### 执行步骤一览（共 6 步）
+首先将项目代码克隆到本地：
 
 ```bash
-# Step 1: 安装环境依赖（JDK 21, Maven, MySQL 8.0+, Node.js, pnpm）
+# 克隆仓库
+git clone https://github.com/can123964/Zhikaoyun-Exam-Platform.git
+
+# 进入项目目录
+cd Zhikaoyun-Exam-Platform
+```
+
+> 💡 **提示**：如果你还没有配置 SSH 密钥，也可以使用 HTTPS 方式克隆。如果仓库是私有的，请确保已登录 GitHub/Gitee 账号。
+
+克隆完成后，项目目录结构如下：
+
+```text
+Zhikaoyun-Exam-Platform/
+├── Backend/              # 后端 Spring Boot 项目
+├── frontend-admin/       # 管理端前端 (Vue 3 + Vite + Element Plus)
+├── frontend-student/     # 学生端前端 (Vue 2 + Vue-CLI + Element UI)
+├── pom.xml               # Maven 父 POM
+├── start-frontend.bat    # 前端交互式启动脚本 (Windows)
+└── README.md             # 项目说明文档
+```
+
+---
+
+## 🚀 快速开始（部署 agent 执行顺序）
+
+### 执行步骤一览（共 7 步）
+
+```bash
+# Step 1: 克隆项目到本地
+git clone https://github.com/can123964/Zhikaoyun-Exam-Platform.git
+cd Zhikaoyun-Exam-Platform
+
+# Step 2: 安装环境依赖（JDK 21, Maven, MySQL 8.0+, Node.js, pnpm）
 java -version          # 验证 JDK 21
 mvn -version           # 验证 Maven
 mysql --version        # 验证 MySQL 8.0+
 node -v                # 验证 Node.js >= 18
 pnpm -v                # 验证 pnpm
 
-# Step 2: 初始化数据库
+# Step 3: 初始化数据库
 mysql -u root -p < Backend/docs/DataBase.sql
 
-# Step 3: 配置并启动后端
+# Step 4: 配置并启动后端
 cd Backend
 # 创建 .env 文件（参考 .env.example）
 mvn spring-boot:run
 
-# Step 4: 启动管理端
+# Step 5: 启动管理端
 cd frontend-admin
 pnpm install
 pnpm dev               # http://localhost:3000
 
-# Step 5: 启动学生端
+# Step 6: 启动学生端
 cd frontend-student
 npm install
 npm run serve          # http://localhost:8001
 
-# Step 6: 验证部署
+# Step 7: 验证部署
 # 后端:   curl http://localhost:8080/api/dashboard/overview
 # 管理端: 浏览器打开 http://localhost:3000
 # 学生端: 浏览器打开 http://localhost:8001
@@ -266,9 +299,21 @@ npm run serve          # http://localhost:8001
 
 ## 📝 详细部署指南
 
-### Step 1：安装环境依赖
+### Step 1：克隆项目
 
-#### 1.1 安装 JDK 21
+```bash
+# 克隆仓库到本地
+git clone https://github.com/can123964/Zhikaoyun-Exam-Platform.git
+
+# 进入项目目录
+cd Zhikaoyun-Exam-Platform
+```
+
+> 💡 **提示**：如果仓库是私有的，请确保已配置 SSH 密钥或 HTTPS 凭据。也可以使用 SSH 方式克隆：`git clone git@github.com:can123964/Zhikaoyun-Exam-Platform.git`
+
+### Step 2：安装环境依赖
+
+#### 2.1 安装 JDK 21
 
 从 [Adoptium](https://adoptium.net/) 下载 JDK 21 LTS 并安装。
 
@@ -277,7 +322,7 @@ java -version
 # 期望输出: openjdk version "21.x.x"
 ```
 
-#### 1.2 安装 Maven
+#### 2.2 安装 Maven
 
 从 [Maven 官网](https://maven.apache.org/download.cgi) 下载并配置环境变量。
 
@@ -286,7 +331,7 @@ mvn -version
 # 期望输出: Apache Maven 3.9.x
 ```
 
-#### 1.3 安装 MySQL 8.0+
+#### 2.3 安装 MySQL 8.0+
 
 从 [MySQL 官网](https://dev.mysql.com/downloads/mysql/) 下载并安装。安装时记住设置的 root 密码。
 
@@ -295,7 +340,7 @@ mysql --version
 # 期望输出: mysql Ver 8.0.x
 ```
 
-#### 1.4 安装 Node.js 和 pnpm
+#### 2.4 安装 Node.js 和 pnpm
 
 从 [Node.js 官网](https://nodejs.org/) 下载 Node.js 20 LTS 安装，然后安装 pnpm：
 
@@ -308,9 +353,9 @@ pnpm -v                # >= 8.0.0
 
 ---
 
-### Step 2：初始化 MySQL 数据库
+### Step 3：初始化 MySQL 数据库
 
-#### 2.1 创建数据库并导入建表脚本
+#### 3.1 创建数据库并导入建表脚本
 
 ```bash
 # 登录 MySQL
@@ -331,7 +376,7 @@ SELECT COUNT(*) FROM t_user;
 # 应返回预置用户数量
 ```
 
-#### 2.2 如果遇到问题
+#### 3.2 如果遇到问题
 
 - **`SOURCE` 命令不生效**：改用命令行导入 `mysql -u root -p exam_system < Backend/docs/DataBase.sql`
 - **中文乱码**：确保数据库字符集为 `utf8mb4`，执行 `SHOW VARIABLES LIKE 'character%';` 检查
@@ -339,9 +384,9 @@ SELECT COUNT(*) FROM t_user;
 
 ---
 
-### Step 3：编译并启动后端
+### Step 4：编译并启动后端
 
-#### 3.1 配置环境变量
+#### 4.1 配置环境变量
 
 在 `Backend/` 目录下创建 `.env` 文件（可复制 `.env.example` 并修改）：
 
@@ -376,7 +421,7 @@ JWT_EXPIRATION=86400000
 LOG_LEVEL=DEBUG
 ```
 
-#### 3.2 编译并启动
+#### 4.2 编译并启动
 
 ```bash
 cd Backend
@@ -395,7 +440,7 @@ Started ZhikaoyunExamPlatformApplication in X.XXX seconds
 Tomcat started on port 8080
 ```
 
-#### 3.3 后端启动常见问题
+#### 4.3 后端启动常见问题
 
 | 问题 | 原因 | 解决方案 |
 |------|------|---------|
@@ -407,16 +452,16 @@ Tomcat started on port 8080
 
 ---
 
-### Step 4：安装依赖并启动管理端
+### Step 5：安装依赖并启动管理端
 
-#### 4.1 安装依赖
+#### 5.1 安装依赖
 
 ```bash
 cd frontend-admin
 pnpm install
 ```
 
-#### 4.2 开发模式启动
+#### 5.2 开发模式启动
 
 ```bash
 pnpm dev
@@ -424,7 +469,7 @@ pnpm dev
 
 启动成功后，浏览器自动打开 `http://localhost:3000`，Vite 已将 `/api` 请求代理到后端 `localhost:8080`。
 
-#### 4.3 生产构建
+#### 5.3 生产构建
 
 ```bash
 pnpm build
@@ -432,7 +477,7 @@ pnpm build
 
 构建产物输出到 `dist/` 目录，可部署到 Nginx 等 Web 服务器。
 
-#### 4.4 验证管理端是否正常运行
+#### 5.4 验证管理端是否正常运行
 
 - 浏览器访问 `http://localhost:3000`，应显示登录页面
 - 使用管理员账号 `wugaoqi / 123456` 登录
@@ -440,16 +485,16 @@ pnpm build
 
 ---
 
-### Step 5：安装依赖并启动学生端
+### Step 6：安装依赖并启动学生端
 
-#### 5.1 安装依赖
+#### 6.1 安装依赖
 
 ```bash
 cd frontend-student
 npm install
 ```
 
-#### 5.2 开发模式启动
+#### 6.2 开发模式启动
 
 ```bash
 npm run serve
@@ -457,7 +502,7 @@ npm run serve
 
 启动成功后，访问 `http://localhost:8001`。Vue-CLI 已将 `/api` 请求代理到后端 `localhost:8080`。
 
-#### 5.3 生产构建
+#### 6.3 生产构建
 
 ```bash
 npm run build
@@ -465,7 +510,7 @@ npm run build
 
 构建产物输出到 `student/` 目录。
 
-#### 5.4 验证学生端是否正常运行
+#### 6.4 验证学生端是否正常运行
 
 - 浏览器访问 `http://localhost:8001`，应显示登录页面
 - 使用学生账号 `huangxin / 123456` 登录
@@ -874,4 +919,3 @@ DELETE /api/wrong-book/{id}         # 删除错题
 - [有来开源](https://gitee.com/youlaiorg) — 管理端模板来源
 - [学之思](https://gitee.com/mindskip/xzs-mysql) — 学生端参考
 - [云帆培训考试系统](https://gitee.com/wonderful-code/yfexam-exam) — 业务流程设计参考
-
